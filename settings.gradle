@@ -1,0 +1,3 @@
+include ':decrypt'
+include ':app'
+rootProject.name = "YLog"

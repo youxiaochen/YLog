@@ -105,7 +105,7 @@ void LogAppender::_asyn_flush() {
 }
 
 void LogAppender::appender_async(const char *_log, size_t _len) {
-    std::unique_lock<std::mutex> _lock(async_mutex);
+    std::lock_guard<std::mutex> _lock(async_mutex);
     if (NULL == log_buffer) return;
     if (!log_buffer->write(_log, _len)) return;
     if (log_buffer->getBuffer().length() >= buffer_size / 3) {
@@ -138,7 +138,7 @@ void LogAppender::appender_close() {
 }
 
 void LogAppender::appender_flush() {
-    std::unique_lock<std::mutex> _lock(async_mutex);
+    std::lock_guard<std::mutex> _lock(async_mutex);
     async_condition.notify_all();
 }
 

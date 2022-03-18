@@ -52,11 +52,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             new Thread(){
                 @Override
                 public void run() {
-                    for (int j = 0; j < 1000; j++) {
+                    for (int j = 0; j < 2000; j++) {
                         String log = title + j * 1000;
                         LogUtils.i("youxiaochen", log);
                         try {
-                            Thread.sleep(20);
+                            Thread.sleep(5);
                         } catch (InterruptedException e) {
                             e.printStackTrace();
                         }

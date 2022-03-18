@@ -24,29 +24,17 @@ public final class App extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-
-        File ff = new File(FileUtils.getCacheDirPath(this), "testLog.mmapf");
-
-        Log.i("youxiaochen", ff.getParentFile().exists() + "  " + ff.getParentFile());
-
-        ff.mkdirs();
-
-
         if (!logInited) {
             logInited = true;
             initLog();
         }
-
-
-
-
-
-
     }
 
     private void initLog() {
-        //建议放在data/data/包外下的
+        //建议放在data/data/包...下的  ,确保mkdirs()
+        //mmap路径
         String bufferPath = new File(FileUtils.getCacheDirPath(this), "testLog.mmapf").getAbsolutePath();
+        //日志生成路径
         String logfileDir = FileUtils.getCacheDirPath(this).getAbsolutePath();
         //文件记录日志
         AppenderLogger appenderLogger = new AppenderLogger.Builder(logfileDir, bufferPath)
@@ -63,7 +51,7 @@ public final class App extends Application {
 //                    }
 //                })
                 .build();
-
+        //添加日志拦截只记录INFO级别的日志
         appenderLogger.addInterceptor(new LevelInterceptor(LogUtils.INFO));
         //测试亦可用此方式, 建议线上只使用AppenderLogger的方式记录日志
         MultiLogger multiLogger = new MultiLogger();

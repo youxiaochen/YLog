@@ -32,7 +32,7 @@ public final class FileUtils {
         } else {
             directory = new File(context.getCacheDir(), FILE_DIR);
         }
-//        if (!directory.exists()) directory.mkdirs();
+        if (!directory.exists()) directory.mkdirs();
         return directory;
     }
 

@@ -1,6 +1,7 @@
 package you.chen.ylog.ui;
 
 import android.content.Context;
+import android.os.Build;
 import android.os.Environment;
 
 import java.io.File;
@@ -15,21 +16,24 @@ public final class FileUtils {
     static final String FILE_DIR = "ylog";
 
     /**
-     * 使用时一定要完整路径,并确保有权限,如/storage/emulated/0/Android/data/com.you.log/cache/ylog/
+     * 使用时一定要完整路径,文件夹有创建,并确保有权限,如/storage/emulated/0/Android/data/com.you.log/cache/ylog/
+     * 10.0时要考虑文件分区时的情况, 推荐使用getExternalCacheDir的方式储存,防止用户手动删除了mmap文件
      * @param context
      * @return
      */
     public static File getCacheDirPath(Context context) {
+        File directory;
         if (isSDCardExist()) {
-            String path = Environment.getExternalStorageDirectory() + File.separator + FILE_DIR + File.separator;
-            File directory = new File(path);
-            if (!directory.exists()) directory.mkdirs();
-            return directory;
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                directory = new File(context.getExternalCacheDir(), FILE_DIR);
+            } else {
+                directory = new File(Environment.getExternalStorageDirectory(), FILE_DIR);
+            }
         } else {
-            File directory = new File(context.getCacheDir(), FILE_DIR);
-            if (!directory.exists()) directory.mkdirs();
-            return directory;
+            directory = new File(context.getCacheDir(), FILE_DIR);
         }
+//        if (!directory.exists()) directory.mkdirs();
+        return directory;
     }
 
     /**

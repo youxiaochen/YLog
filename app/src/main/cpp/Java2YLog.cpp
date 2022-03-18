@@ -6,6 +6,7 @@
 #include "LogAppender.h"
 
 static const char* const javaLogClassName = "you/chen/ylog/log/LogAppender";
+
 static const char* const publicKey_ = "572d1e2710ae5fbca54c76a382fdd44050b3a675cb2bf39feebe85ef63d947aff0fa4943f1112e8b6af34bebebbaefa1a0aae055d9259b89a1858f7cc9af9df1";
 
 extern "C"

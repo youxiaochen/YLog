@@ -21,7 +21,7 @@ public final class AppenderLogger implements Logger {
 
     //日志拦截
     private final List<Interceptor> interceptorList = new ArrayList<>();
-    //最大添加长度,超过时分割多段后写入
+    //单次日志添加时日志最大添加长度,超过时分割多段后写入
     private int maxAppendLength;
     //核心写入
     private LogAppender logAppender;
@@ -57,7 +57,7 @@ public final class AppenderLogger implements Logger {
                 break;
             }
         }
-        if (!intercepted) {
+        if (!intercepted && maxAppendLength > 0) {
             if (msg.length() <= maxAppendLength) {
                 logAppender.appender(formatter.format(level, tag, msg));
                 return;
@@ -210,7 +210,7 @@ public final class AppenderLogger implements Logger {
                 logAliveTime = DEF_LOG_ALIVE_TIME;
             }
             if (maxAppendLength <= 0) {
-                maxAppendLength = DEF_APPENDER_LEN;
+                maxAppendLength = (int) (bufferSize / 3);
             }
             return new AppenderLogger(this);
         }

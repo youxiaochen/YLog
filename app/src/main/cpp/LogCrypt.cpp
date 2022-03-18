@@ -5,7 +5,6 @@
 #include "LogCrypt.h"
 #include "Tea_crypt.h"
 #include "uECC.h"
-#include "Log.h"
 
 //magicHeader + len + seckey
 uint32_t LogCrypt::getHeaderLen() {
@@ -39,7 +38,7 @@ LogCrypt::LogCrypt(const char *public_key_) {
     uint8_t ecdh_key[32] = {0};
     if (uECC_shared_secret(svr_pubkey, private_key, ecdh_key, uECC_secp256k1()) == 0) return;
     memcpy(tea_key, ecdh_key, sizeof(tea_key));
-    LOGD("isCrypte true");
+//    LOGD("isCrypte true");
     is_crypt = true;
 }
 

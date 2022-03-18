@@ -4,6 +4,7 @@ import java.io.File;
 
 /**
  * author: you : 2018/12/14
+ * 注意此类不能混淆
  */
 public final class LogAppender {
 
@@ -11,10 +12,10 @@ public final class LogAppender {
         System.loadLibrary("YlogCore");
     }
 
-    //默认自动刷新日志时间
+    //默认自动刷新日志最大时间单位 秒
     public static final int MAX_FLUSH_DELAY = 60 * 60;
     //最小刷新间隔, DEBUG状态时可小一点
-    public static final int MIN_FLUSH_DELAY = 30;
+    public static final int MIN_FLUSH_DELAY = 5 * 60;
     //最大与最小BufferSize 4K整数最佳
     public static final int MAX_BUFFERSIZE = 1024 * 1024;
     public static final int MIN_BUFFERSIZE = 40 * 1024;

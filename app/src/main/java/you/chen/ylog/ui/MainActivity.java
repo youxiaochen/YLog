@@ -8,8 +8,6 @@ import android.view.View;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
-import java.io.File;
-
 import you.chen.ylog.R;
 import you.chen.ylog.log.LogUtils;
 
@@ -19,41 +17,28 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        findViewById(R.id.bt).setOnClickListener(this);
+        findViewById(R.id.bt0).setOnClickListener(this);
         findViewById(R.id.bt1).setOnClickListener(this);
         findViewById(R.id.bt2).setOnClickListener(this);
-        findViewById(R.id.bt3).setOnClickListener(this);
-        findViewById(R.id.bt4).setOnClickListener(this);
-        findViewById(R.id.bt5).setOnClickListener(this);
-        findViewById(R.id.bt6).setOnClickListener(this);
-
         String[] pers = {Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE};
         ActivityCompat.requestPermissions(this, pers, 1);
     }
 
-
-
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.bt1:
-
+            case R.id.bt:
+                LogUtils.i("youxiaochen", Test.log);
                 break;
-            case R.id.bt2:
+            case R.id.bt0:
+                LogUtils.i("youxiaochen", "this is test...");
+                break;
+            case R.id.bt1:
                 test();
                 break;
-            case R.id.bt3:
+            case R.id.bt2:
                 LogUtils.flush();
-                break;
-            case R.id.bt4:
-                LogUtils.release();
-                break;
-            case R.id.bt5:
-                String logPath = new File(FileUtils.getCacheDirPath(this), "testLog.log").getAbsolutePath();
-                String outPath = new File(FileUtils.getCacheDirPath(this), "outLog.log").getAbsolutePath();
-                break;
-            case R.id.bt6:
-                LogUtils.i("youxiaochen", "haha");
                 break;
         }
     }
@@ -67,14 +52,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             new Thread(){
                 @Override
                 public void run() {
-
                     for (int j = 0; j < 1000; j++) {
                         String log = title + j * 1000;
-
                         LogUtils.i("youxiaochen", log);
-
                         try {
-                            Thread.sleep(10);
+                            Thread.sleep(20);
                         } catch (InterruptedException e) {
                             e.printStackTrace();
                         }

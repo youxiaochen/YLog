@@ -9,8 +9,7 @@ static const char* const javaLogClassName = "you/chen/ylog/log/LogAppender";
 
 static const char* const publicKey_ = "572d1e2710ae5fbca54c76a382fdd44050b3a675cb2bf39feebe85ef63d947aff0fa4943f1112e8b6af34bebebbaefa1a0aae055d9259b89a1858f7cc9af9df1";
 
-extern "C"
-jlong init_native(JNIEnv *env, jclass clazz, jstring logfile_dir_,
+static jlong init_native(JNIEnv *env, jclass clazz, jstring logfile_dir_,
                   jlong buffer_size, jlong flush_delay,
                   jlong max_log_size, jlong max_logalive_time,
                   jboolean isDebug) {
@@ -22,8 +21,7 @@ jlong init_native(JNIEnv *env, jclass clazz, jstring logfile_dir_,
     return reinterpret_cast<jlong>(logAppender);
 }
 
-extern "C"
-void open_buffer(JNIEnv *env, jobject thiz, jlong log_appender, jstring buffer_path_) {
+static void open_buffer(JNIEnv *env, jobject thiz, jlong log_appender, jstring buffer_path_) {
     LogAppender *logAppender = reinterpret_cast<LogAppender *>(log_appender);
     const char *buffer_path = env->GetStringUTFChars(buffer_path_, JNI_FALSE);
 //    LOGD("open native logbuffer %s", buffer_path);
@@ -31,8 +29,7 @@ void open_buffer(JNIEnv *env, jobject thiz, jlong log_appender, jstring buffer_p
     env->ReleaseStringUTFChars(buffer_path_, buffer_path);
 }
 
-extern "C"
-void appender_log(JNIEnv *env, jobject thiz, jlong log_appender, jstring log_data_) {
+static void appender_log(JNIEnv *env, jobject thiz, jlong log_appender, jstring log_data_) {
     LogAppender *logAppender = reinterpret_cast<LogAppender *>(log_appender);
     const char *log_data = env->GetStringUTFChars(log_data_, JNI_FALSE);
 //    LOGD("appender : %s", log_data);
@@ -41,22 +38,19 @@ void appender_log(JNIEnv *env, jobject thiz, jlong log_appender, jstring log_dat
     env->ReleaseStringUTFChars(log_data_, log_data);
 }
 
-extern "C"
-void flush_buffer(JNIEnv *env, jobject thiz, jlong log_appender) {
+static void flush_buffer(JNIEnv *env, jobject thiz, jlong log_appender) {
 //    LOGD("logAppender flush");
     LogAppender *logAppender = reinterpret_cast<LogAppender *>(log_appender);
     logAppender->appender_flush();
 }
 
-extern "C"
-void close_buffer(JNIEnv *env, jobject thiz, jlong log_appender) {
+static void close_buffer(JNIEnv *env, jobject thiz, jlong log_appender) {
 //    LOGD("logAppender close");
     LogAppender *logAppender = reinterpret_cast<LogAppender *>(log_appender);
     logAppender->appender_close();
 }
 
-extern "C"
-void release(JNIEnv *env, jobject thiz, jlong log_appender) {
+static void release(JNIEnv *env, jobject thiz, jlong log_appender) {
 //    LOGD("logAppender release");
     LogAppender *logAppender = reinterpret_cast<LogAppender *>(log_appender);
     if (logAppender != NULL) {

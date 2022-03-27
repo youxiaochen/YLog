@@ -87,8 +87,7 @@ void LogAppender::_asyn_flush() {
     //初次打开时检测过时的日志文件,考虑日志文件一般保留时间为几天,因此不放在每次写入文件时检测
     _rm_unalive_file();
     while (true) {
-        std::unique_lock<std::mutex> _lock(async_mutex, std::defer_lock);
-        _lock.lock();
+        std::unique_lock<std::mutex> _lock(async_mutex);
         if (log_buffer == NULL) break;
         AutoBuffer tmp;
         log_buffer->flush(tmp);

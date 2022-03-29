@@ -1,5 +1,5 @@
 # YLog
-基于mmap的高性能Log记录
+###基于mmap的高性能Log记录, ECC生成TEA对称加密的KEY，在CPP代码中配置公钥,DEBUG时不加密不压缩
 
 
 ```

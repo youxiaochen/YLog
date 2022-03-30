@@ -84,15 +84,21 @@ public final class LogAppender {
         }
     }
 
+    //初始化日志相关参数
     private static native long initNative(String logfileDir, long bufferSize, long flushDelay, long maxLogSize, long maxLogAliveTime, boolean isDebug);
 
+    //打开日志文件,mmap映射或者native内层
     private native void openBuffer(long logAppender, String bufferPath);
 
+    //添加日志
     private native void appender(long logAppender, String logData);
 
+    //flush日志,异步处理
     private native void flush(long logAppender);
 
+    //关闭mmap
     private native void closeBuffer(long logAppender);
 
+    //释放
     private native void release(long logAppender);
 }

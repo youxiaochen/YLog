@@ -40,13 +40,7 @@ public final class TwoActivity extends AppCompatActivity implements View.OnClick
                 LogUtils.i("youxiaochen", "this is test Activity2...");
                 break;
             case R.id.bt1:
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        Log.i("youxiaochen", "thread start");
-                        test();
-                    }
-                }, 2000);
+                test();
                 break;
             case R.id.bt2:
                 LogUtils.flush();

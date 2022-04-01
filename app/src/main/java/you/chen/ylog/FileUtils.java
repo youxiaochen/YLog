@@ -1,4 +1,4 @@
-package you.chen.ylog.ui;
+package you.chen.ylog;
 
 import android.content.Context;
 import android.os.Build;

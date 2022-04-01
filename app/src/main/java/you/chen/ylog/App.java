@@ -1,16 +1,19 @@
 package you.chen.ylog;
 
+import android.app.ActivityManager;
 import android.app.Application;
+import android.content.Context;
+import android.text.TextUtils;
 import android.util.Log;
 
 import java.io.File;
+import java.util.List;
 
 import you.chen.ylog.log.AndroidLogger;
 import you.chen.ylog.log.AppenderLogger;
 import you.chen.ylog.log.LevelInterceptor;
 import you.chen.ylog.log.LogUtils;
 import you.chen.ylog.log.MultiLogger;
-import you.chen.ylog.ui.FileUtils;
 
 /**
  * author: you : 2021/12/28
@@ -30,12 +33,32 @@ public final class App extends Application {
         }
     }
 
+    //多进程时mmap映射文件分开
+    private String subProcessName() {
+        try {
+            String procceName = ProcessUtils.getCurrentProcessName(this);
+            int lastIndexProcessC = procceName.lastIndexOf(':');
+            if (lastIndexProcessC >= 0) {
+                return procceName.substring(lastIndexProcessC + 1);
+            }
+        } catch (Exception e) {
+        }
+        return null;
+    }
+
     private void initLog() {
         //建议放在data/data/包...下的  ,确保mkdirs()
+        String subProcessName = subProcessName();
+        File dirPath = FileUtils.getCacheDirPath(this);
+        if (!TextUtils.isEmpty(subProcessName)) {
+            dirPath = new File(dirPath, subProcessName);
+            if (!dirPath.exists()) dirPath.mkdirs();
+        }
+
         //mmap路径
-        String bufferPath = new File(FileUtils.getCacheDirPath(this), "testLog.mmapf").getAbsolutePath();
+        String bufferPath = new File(dirPath, "testLog.mmapf").getAbsolutePath();
         //日志生成路径
-        String logfileDir = FileUtils.getCacheDirPath(this).getAbsolutePath();
+        String logfileDir = dirPath.getAbsolutePath();
         //文件记录日志
         AppenderLogger appenderLogger = new AppenderLogger.Builder(logfileDir, bufferPath)
                 .setDebug(isDebug) //debug模式时不加密不压缩
@@ -62,6 +85,26 @@ public final class App extends Application {
             multiLogger.addLogger(androidLogger);
         }
         LogUtils.init(multiLogger);
+    }
+
+    /**
+     * 获得当前进程的名字
+     *
+     * @return
+     */
+    private String getCurProcessName() {
+        ActivityManager am = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
+        List<ActivityManager.RunningAppProcessInfo> runningApps = am.getRunningAppProcesses();
+        if (runningApps == null || runningApps.isEmpty()) {
+            return null;
+        }
+        int pid = android.os.Process.myPid();
+        for (ActivityManager.RunningAppProcessInfo procInfo : runningApps) {
+            if (procInfo.pid == pid) {
+                return procInfo.processName;
+            }
+        }
+        return null;
     }
 
 }

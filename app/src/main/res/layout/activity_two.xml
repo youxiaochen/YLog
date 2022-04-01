@@ -28,10 +28,4 @@
         android:text="flush日志"
         android:textAllCaps="false"/>
 
-    <Button android:id="@+id/bt3"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="启动进程TwoActivity"
-        android:textAllCaps="false"/>
-
 </LinearLayout>

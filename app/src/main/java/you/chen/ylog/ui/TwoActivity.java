@@ -1,28 +1,31 @@
 package you.chen.ylog.ui;
 
 import android.Manifest;
-import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
 import you.chen.ylog.R;
 import you.chen.ylog.log.LogUtils;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+/**
+ * author: you : 2022/4/1
+ */
+public final class TwoActivity extends AppCompatActivity implements View.OnClickListener {
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         findViewById(R.id.bt).setOnClickListener(this);
         findViewById(R.id.bt0).setOnClickListener(this);
         findViewById(R.id.bt1).setOnClickListener(this);
         findViewById(R.id.bt2).setOnClickListener(this);
-        findViewById(R.id.bt3).setOnClickListener(this);
         String[] pers = {Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE};
         ActivityCompat.requestPermissions(this, pers, 1);
     }
@@ -34,23 +37,26 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 LogUtils.i("youxiaochen", Test.log);
                 break;
             case R.id.bt0:
-                LogUtils.i("youxiaochen", "this is test...");
+                LogUtils.i("youxiaochen", "this is test Activity2...");
                 break;
             case R.id.bt1:
-                test();
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        Log.i("youxiaochen", "thread start");
+                        test();
+                    }
+                }, 2000);
                 break;
             case R.id.bt2:
                 LogUtils.flush();
-                break;
-            case R.id.bt3:
-                startActivity(new Intent(this, TwoActivity.class));
                 break;
         }
     }
 
     private void test() {
-        final String[] as = {"िन्दी或हिंदिन्दी或हिंदिन्दी或हिंद this is test", "한국어ी한국어ी 한국어ी 한국어ी  this is test",
-                "这是一个测试的数据用来测试日志性能 this is test", "this is test log datas so this is test"};
+        final String[] as = {"िन्दी或हिंदिन्दी或हिंदिन्दी或हिंद this is testActivity 2", "한국어ी한국어ी 한국어ी 한국어ी  this is testActivity 2",
+                "这是一个测试的数据用来测试日志性能 this is testActivity 2", "this is test log datas so this is testActivity 2"};
         for (int i = 0; i < 4; i++) {
             final String title = as[i];
             final int th = i;

@@ -124,7 +124,7 @@ public final class AppenderLogger implements Logger {
                 calendar.setTimeInMillis(System.currentTimeMillis());
                 currTimeStr.setLength(0);
                 formatter.format(format, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH) + 1,
-                        calendar.get(Calendar.DAY_OF_MONTH), calendar.get(Calendar.HOUR),
+                        calendar.get(Calendar.DAY_OF_MONTH), calendar.get(Calendar.HOUR_OF_DAY),
                         calendar.get(Calendar.MINUTE), calendar.get(Calendar.SECOND));
                 logStringBuilder.setLength(0);
                 return logStringBuilder.append(currTimeStr)

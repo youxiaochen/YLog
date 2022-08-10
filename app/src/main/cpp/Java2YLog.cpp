@@ -70,15 +70,11 @@ JNINativeMethod gMethods[] = {
 extern "C" JNIEXPORT jint JNICALL
 JNI_OnLoad(JavaVM *vm, void *reserved) {
     JNIEnv *env = NULL;
-    if ((vm)->GetEnv((void **) &env, JNI_VERSION_1_4) != JNI_OK) {
-        return JNI_ERR;
-    }
+    if ((vm)->GetEnv((void **) &env, JNI_VERSION_1_4) != JNI_OK) return JNI_ERR;
     jclass javaLogClass = env->FindClass(javaLogClassName);
-    assert(javaLogClass != NULL);
-    if (env->RegisterNatives(javaLogClass, gMethods, sizeof(gMethods) / sizeof(gMethods[0])) < 0) {
-        return JNI_ERR;
-    }
+    jint registerRes = env->RegisterNatives(javaLogClass, gMethods, sizeof(gMethods) / sizeof(gMethods[0]));
     env->DeleteLocalRef(javaLogClass);
+    if (registerRes < 0) return JNI_ERR;
     return JNI_VERSION_1_4;
 }
 

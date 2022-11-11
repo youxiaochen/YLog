@@ -132,6 +132,7 @@ public final class LogUtils {
         PrintWriter printWriter = new PrintWriter(info);
         throwable.printStackTrace(printWriter);
         printWriter.flush();
+        printWriter.close();
         return info.toString();
     }
 }
